@@ -12,22 +12,22 @@ connection.once('open', async () => {
   // Drop existing users
   await User.deleteMany({});
 
-  // Create empty array to hold the users
+  // // Create empty array to hold the users
   const users = [];
 
-  // Loop 20 times -- add users to the users array
+  // // Loop 20 times -- add users to the users array
   for (let i = 0; i < 20; i++) {
 
-    const fullName = getRandomName();
-    const first = fullName.split(' ')[0];
-    const last = fullName.split(' ')[1];
+  //   const fullName = getRandomName();
+  //   const first = fullName.split(' ')[0];
+  //   const last = fullName.split(' ')[1];
 
-    users.push({
-      first,
-      last,
-      github,
-      assignments,
-    });
+    // users.push({
+    //   first,
+    //   // last,
+    //   // github,
+    //   // assignments,
+    // });
   }
 
   // Add users to the collection and await the results
