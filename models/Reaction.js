@@ -1,4 +1,3 @@
-const { ObjectId } = require('mongoose');
 const { Schema, model } = require('mongoose');
 const { Reaction } = require('.');
 
