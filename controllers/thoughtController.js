@@ -54,17 +54,31 @@ module.exports = {
   },
 
   createReaction(req, res) {
-    Reaction.create(req.body)
-      .then((reaction) => res.json(reaction))
-      .catch((err) => {
-        console.log(err);
-        return res.status(500).json(err);
-      });
+    Thought.findOneAndUpdate(
+      { _id: req.params.thoughtId },
+      { $addToSet: { reactions: req.body } },
+      { new: true }
+    ).then((thought) => {
+      if (!thought) {
+        return res.status(404).json({ message: 'No such thought exists' })
+      }
+      res.json(thought)
+    })
+      .catch((err) => res.status(500).json(err))
   },
 
+
   deleteReaction(req, res) {
-    Reaction.findOneAndDelete({ _id: req.params.reactionId })
-      .then(() => res.json({ message: 'Reaction deleted!' }))
-      .catch((err) => res.status(500).json(err));
-  },
-};
+    Thought.findOneAndUpdate(
+      { _id: req.params.thoughtId },
+      { $pull: { reactions: req.params.reactionId } },
+      { new: true }
+    ).then((thought) => {
+      if (!thought) {
+        return res.status(404).json({ message: 'No such thought exists' })
+      }
+      res.json(thought)
+    })
+      .catch((err) => res.status(500).json(err))
+  }
+}
