@@ -7,11 +7,7 @@ module.exports = {
   getUsers(req, res) {
     User.find()
       .then(async (users) => {
-        const userObj = {
-          users,
-          headCount: await userCount(),
-        };
-        return res.json(userObj);
+        return res.json(users);
       })
       .catch((err) => {
         console.log(err);
@@ -25,10 +21,7 @@ module.exports = {
       .then(async (user) =>
         !user
           ? res.status(404).json({ message: 'No user with that ID' })
-          : res.json({
-            user,
-            friends: await friends(req.params.userId),
-          })
+          : res.json(user)
       )
       .catch((err) => {
         console.log(err);
@@ -61,11 +54,8 @@ module.exports = {
       .then((user) =>
         !user
           ? res.status(404).json({ message: 'No such user exists' })
-          : Thought.findOneAndUpdate(
-            { users: req.params.userId },
-            { $pull: { users: req.params.userId } },
-            { new: true }
-          )
+          :
+          res.json(user)
       )
       .catch((err) => {
         console.log(err);
